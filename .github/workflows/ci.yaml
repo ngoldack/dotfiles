@@ -17,11 +17,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Setup chezmoi
-      run: "sudo apt-get install chezmoi -y"
+    - name: Download chezmoi
+      run: "sh -c "$(curl -fsLS get.chezmoi.io) -- -b ."
 
     - name: Chezmoi apply
-      run: "chezmoi init --apply ngoldack"
+      run: "./chezmoi init --apply $GITHUB_USERNAME ngoldack"
 
     - name: Chezmoi verify
-      run: "chezmoi verify"
+      run: "./chezmoi verify"
