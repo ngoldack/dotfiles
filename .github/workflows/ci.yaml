@@ -10,10 +10,22 @@ permissions:
   contents: read
 
 jobs:
-  lint:
-
+  ci-linux:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
 
+    - name: Download chezmoi
+      run: 'sh -c "$(curl -fsLS get.chezmoi.io)"'
+
+    - name: Chezmoi apply
+      run: "./bin/chezmoi init --apply $GITHUB_USERNAME ngoldack"
+
+    - name: Chezmoi verify
+      run: "./bin/chezmoi verify"
+
+  ci-macos:
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
 
