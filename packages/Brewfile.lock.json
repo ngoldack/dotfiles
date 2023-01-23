@@ -1426,9 +1426,9 @@
   "system": {
     "linux": {
       "Unknown": {
-        "HOMEBREW_VERSION": "3.6.20-49-g462c69d",
+        "HOMEBREW_VERSION": "3.6.20",
         "HOMEBREW_PREFIX": "/home/linuxbrew/.linuxbrew",
-        "Homebrew/linuxbrew-core": "c93ff810a64fbafe36ec6e11eeda0f4c336a982b",
+        "Homebrew/linuxbrew-core": "7327ba7074d8de05d7b5130e8ef463629035de95",
         "GCC": ""
       }
     }
