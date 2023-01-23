@@ -18,3 +18,4 @@ cask discord
 cask steam
 cask epic-games
 cask league-of-legends
+cask docker

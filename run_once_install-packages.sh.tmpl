@@ -62,12 +62,19 @@ install_node() {
   nvm install --lts
 }
 
+setup_docker_linux() {
+  msg "setting up docker for linux"
+  
+}
+
 {{ if eq .chezmoi.os "linux" -}}
 msg os is linux
 
 install_brew
 
 /home/linuxbrew/.linuxbrew/bin/brew bundle -v --file=~/.local/share/chezmoi/packages/Brewfile
+
+setup_docker_linux
 
 {{ else if eq .chezmoi.os "darwin" -}}
 msg os is darwin
