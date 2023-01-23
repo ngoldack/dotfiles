@@ -1,0 +1,13 @@
+{{ if eq .chezmoi.os "linux" -}}
+
+[credential "https://github.com"]
+        helper = 
+        helper = !/home/linuxbrew/.linuxbrew/Cellar/gh/2.21.2/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+        helper = 
+        helper = !/home/linuxbrew/.linuxbrew/Cellar/gh/2.21.2/bin/gh auth git-credential
+
+{{ end -}}
+[user]
+        email = nicolas-goldack@live.de
+        name = Nicolas Goldack
