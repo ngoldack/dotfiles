@@ -1,0 +1,85 @@
+#!/bin/bash
+# install script for brew packages
+
+
+###### Setup
+set -u
+
+# string formatters
+if [[ -t 1 ]]
+then
+  tty_escape() { printf "\033[%sm" "$1"; }
+else
+  tty_escape() { :; }
+fi
+tty_mkbold() { tty_escape "1;$1"; }
+tty_underline="$(tty_escape "4;39")"
+tty_green="$(tty_mkbold 33)"
+tty_red="$(tty_mkbold 31)"
+tty_bold="$(tty_mkbold 39)"
+tty_reset="$(tty_escape 0)"
+
+shell_join() {
+  local arg
+  printf "%s" "$1"
+  shift
+  for arg in "$@"
+  do
+    printf " "
+    printf "%s" "${arg// /\ }"
+  done
+}
+
+chomp() {
+  printf "%s" "${1/"$'\n'"/}"
+}
+
+msg() {
+  printf "${tty_green}###${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
+}
+
+warn() {
+  printf "${tty_red}Warning${tty_reset}: %s\n" "$(chomp "$1")"
+}
+
+msg install packages script starting.
+
+install_brew() {
+  msg installing/updating brew package manager
+  CI=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+install_oh_my_zsh() {
+  msg installing oh-my-zsh
+  RUNZSH=no CHZSH=yes KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+}
+
+install_node() {
+  msg installing nodejs
+
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"
+  nvm install --lts
+}
+
+{{ if eq .chezmoi.os "linux" -}}
+msg os is linux
+
+install_brew
+
+/home/linuxbrew/.linuxbrew/bin/brew bundle -v --file=~/.local/share/chezmoi/packages/Brewfile
+
+{{ else if eq .chezmoi.os "darwin" -}}
+msg os is darwin
+
+install_brew
+# TODO add brew to path
+brew bundle -v --file=~/.local/share/chezmoi/packages/Brewfile
+brew bundle -v --file=~/.local/share/chezmoi/packages/darwin.Brewfile
+
+{{ end -}}
+
+install_oh_my_zsh
+install_node
+
+
