@@ -1,5 +1,4 @@
 brew "git"
-brew "curl"
 brew "gcc"
 brew "zsh"
 brew "chezmoi"
