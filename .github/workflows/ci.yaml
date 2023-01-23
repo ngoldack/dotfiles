@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Download chezmoi
-      run: "sh -c "$(curl -fsLS get.chezmoi.io)""
+      run: "sh -c "$(curl -fsLS get.chezmoi.io)"
 
     - name: Chezmoi apply
       run: "./bin/chezmoi init --apply $GITHUB_USERNAME ngoldack"
