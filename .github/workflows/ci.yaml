@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup chezmoi
+      run: "apt-get install chezmoi -y"
+
+    - name: Chezmoi apply
+      run: "chezmoi init --apply ngoldack"
+
+    - name: Chezmoi verify
+      run: "chezmoi verify"
