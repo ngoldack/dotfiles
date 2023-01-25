@@ -50,6 +50,14 @@ export NVM_DIR="$HOME/.nvm"
 # thefuck
 eval $(thefuck --alias)
 
+# liquibase
+{{ if eq .chezmoi.os "darwin" -}}
+
+{{ else -}}
+export LIQUIBASE_HOME=/home/linuxbrew/.linuxbrew/opt/liquibase/libexec
+{{ end -}}
+
+
 # Powerlevel10k theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
