@@ -57,6 +57,9 @@ eval $(thefuck --alias)
 export LIQUIBASE_HOME=/home/linuxbrew/.linuxbrew/opt/liquibase/libexec
 {{ end -}}
 
+# pnpm
+export PNPM_HOME="/home/ngoldack/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
 
 # Powerlevel10k theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
