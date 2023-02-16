@@ -43,19 +43,8 @@ antigen apply
 
 #################### Path Mapping #############################
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"
-
 # thefuck
 eval $(thefuck --alias)
-
-# liquibase
-{{ if eq .chezmoi.os "darwin" -}}
-
-{{ else -}}
-export LIQUIBASE_HOME=/home/linuxbrew/.linuxbrew/opt/liquibase/libexec
-{{ end -}}
 
 # pnpm
 export PNPM_HOME="/home/ngoldack/.local/share/pnpm"
