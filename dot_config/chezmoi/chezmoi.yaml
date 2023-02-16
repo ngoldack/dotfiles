@@ -1,0 +1,5 @@
+data:
+  osid: "linux-ubuntu"
+
+git:
+  autoPush: true
