@@ -90,7 +90,6 @@ xargs -a <(awk '! /^ *(#|$)/' "packages/apt/packages.list") -r -- sudo apt-get i
 {{   else if eq .chezmoi.osRelease.id "fedora" }}
 # Fedora-specific code
 
-{{ 
 {{   end }}
 # install_brew
 # export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin 
