@@ -54,21 +54,44 @@ install_oh_my_zsh() {
   RUNZSH=no CHZSH=yes KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
-install_node() {
-  msg installing nodejs
-
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"
-  nvm install --lts
-}
-
 setup_docker_linux() {
   msg "setting up docker for linux"
 }
 
 {{ if eq .chezmoi.os "linux" -}}
-msg os is linux
+msg "os is linux"
 
+
+{{ else if eq .chezmoi.os "linux" }}
+{{   if eq .chezmoi.osRelease.id "debian" "ubuntu" }}
+msg "package manager is apt-get"
+msg "updating package list"
+sudo apt-get update
+# check/install curl
+type -p curl >/dev/null || sudo apt install curl -y
+
+# Adding repos
+## gh
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update
+
+## go
+sudo add-apt-repository ppa:longsleep/golang-backports
+sudo apt update
+
+## nodejs
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
+# install packages
+xargs -a <(awk '! /^ *(#|$)/' "packages/apt/packages.list") -r -- sudo apt-get install
+
+{{   else if eq .chezmoi.osRelease.id "fedora" }}
+# Fedora-specific code
+
+{{ 
+{{   end }}
 # install_brew
 # export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin 
 # /home/linuxbrew/.linuxbrew/bin/brew bundle -v --file=~/.local/share/chezmoi/packages/Brewfile
@@ -80,10 +103,9 @@ msg os is darwin
 
 install_brew
 # TODO add brew to path
-brew bundle -v --file=~/.local/share/chezmoi/packages/Brewfile
+brew bundle -v --file=~/.local/share/chezmoi/packages/darwin/Brewfile
 
 install_oh_my_zsh
-install_node
 
 {{ end -}}
 
